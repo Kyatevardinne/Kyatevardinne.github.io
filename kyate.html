@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyate's portfolio</title>
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/thumbnails/033/659/580/small_2x/letter-k-logo-metallic-style-png.png" type="image/png">
+    <style>
+        body {
+            position: relative;
+            background-color: black;
+            display: flex;
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin : 0;
+            z-index: -1;
+            user-select: none;
+        }
+        h1, h2, p {
+            margin : 0;
+        }
+
+        #nav {
+            position: fixed;
+            top : 15px;
+            left : 50vw;
+            transform: translateX(-50%);
+            display: flex;
+            gap : 10px;
+            align-items: center;
+            padding: 20px 40px;
+            border-radius: 20px;
+            background-color: rgba(32,32,32,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 0;
+        }
+        #nav > div {
+            display: flex;
+            gap : 25px;
+            margin : 0 150px;
+            transition : margin 0.5s ease-in-out;
+        }
+        #nav > div > span {
+            padding : 5px 10px;
+            border-radius: 15px/50%;
+        }
+        #nav > div > span:hover {
+            cursor: pointer;
+            box-shadow: 0px 0px 5px white inset;
+        }
+
+        #home, #about, #projects, #skills, #contact {
+            width : 1000px;
+            padding-top : 100px;
+            z-index: -1;
+        }
+
+        #home {
+            gap : 25px;
+            grid-template-columns: 300px 700px;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        #home > div {
+            padding : 25px;
+            border-radius: 10px;
+            background-color: rgb(16,16,16);
+        }
+        #home > div:first-of-type {
+            grid-row : span 2;
+        }
+        #home > div:nth-of-type(3) {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #home > div:last-of-type {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            position: relative;
+            grid-column: span 2;
+            cursor: pointer;
+        }
+        #home > div:last-of-type > img {
+            position : absolute;
+            top : 25px;
+            right : 25px;
+            width : 25px;
+            padding : 5px;
+            border : 1px solid gray;
+            border-radius: 50%;
+            transform: rotate(-45deg);
+            transition: transform 0.25s ease-in-out;
+        }
+        #home > div:last-of-type:hover > img {
+            transform: rotate(0);
+        }
+        #home > div:last-of-type > div {
+            display: flex;
+            padding: 25px;
+            gap : 50px;
+            overflow-x: scroll;
+        }
+        #home > div:last-of-type > div > img {
+            width : 100px;
+            height : 100px;
+            filter : grayscale(100%);
+        }
+        #home > div:last-of-type > div > img:hover {
+            filter : none;
+        }
+        #home p {
+            color : rgb(191,191,191);
+        }
+        #topSkills-1 {
+            display: flex;
+            align-items: center;
+            gap : 20px;
+            padding: 20px;
+            overflow-x: scroll;
+        }
+        #topSkills-1 > div {
+            min-width : 100px;
+            height : 100px;
+            background-color: rgb(32,32,32);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #topSkills-1 img {
+            height : 40px;
+            filter: grayscale(100%);
+        }
+        #topSkills-1 > div:hover img {
+            filter : none;
+        }
+        #topSkills-2 {
+            position: relative;
+            font-size: 1.4em;
+            mask-image: linear-gradient(to right, rgba(0,0,0,0) 10%, rgb(0,0,0) 25%, rgb(0,0,0) 75%, rgba(0,0,0,0) 90%);
+            height : 25.5px;
+            overflow: hidden;
+        }
+        #topSkills-2 > div {
+            position: absolute;
+            display: inline-block;
+        }
+        #topSkills-2 > div:nth-of-type(2n) {
+            top : 5.75px;
+            border : 2px solid gray;
+            padding : 5px;
+            border-radius: 50%;
+            margin : 0 7px 0 14px;
+        }
+
+        #about {
+            gap : 25px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 400px;
+        }
+        #about > div:first-of-type {
+            grid-column: span 2;
+            display: flex;
+            background-color: rgb(16,16,16);
+            padding : 25px;
+            border-radius: 25px;
+        }
+        #about > div:first-of-type > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        #about p {
+            padding : 5px;
+        }
+        #education, #certification {
+            background-color: rgb(16,16,16);
+            padding : 50px;
+            border-radius: 25px;
+        }
+        #education > div, #certification > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            max-height: calc(100% - 67.5px);
+            overflow-y: scroll;
+        }
+        #education > div > div, #certification > div > div {
+            background-color: rgb(32,32,32);
+            margin : 15px 0;
+            padding : 10px;
+            border-radius: 10px;
+            color : rgb(191,191,191);
+        }
+        #education > div > div:hover, #certification > div > div:hover {
+            color : white;
+        }
+
+        #projects {
+            grid-template-columns: 1fr 1fr;
+            gap : 50px;
+        }
+        #projects > div {
+            background-color: rgb(16,16,16);
+            padding : 25px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        #projects > div > div:last-of-type {
+            width : 100%;
+            height : 75%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #projects > div img {
+            width : 100%;
+            height : 100%;
+            filter : grayscale(100%);
+            transform: scale(1.1);
+            transition-property: filter, transform;
+            transition-duration: 0.25s;
+        }
+        #projects > div:hover img {
+            transform: none;
+            filter : none;
+        }
+
+        #skills {
+            grid-template-columns: 1fr 1fr;
+            gap : 50px;
+        }
+        #skills > div {
+            display : flex;
+            flex-direction: column;
+            gap : 10px;
+            padding : 25px;
+            border-radius: 15px;
+            background-color: rgb(16,16,16);
+            color : gray;
+        }
+        #skills > div:hover {
+            cursor : context-menu;
+            background-color: rgb(32,32,32);
+            color : white;
+        }
+
+        #contact {
+            grid-template-columns: 1fr 1fr;
+            gap : 50px;
+        }
+        #contact > div {
+            display: flex;
+            flex-direction: column;
+            gap : 25px;
+            padding: 25px;
+            border-radius: 25px;
+            background-color: rgb(16,16,16);
+            overflow: hidden;
+        }
+        #contact > div:last-of-type {
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        #contact > div:last-of-type > div {
+            background-color: rgb(32,32,32);
+            width : 60%;
+            transform: scale(1.5);
+        }
+
+        .nav {
+            width : 1000px;
+            justify-content: space-evenly;
+            align-items: center;
+            margin : 50px 0;
+        }
+        .nav > div {
+            width : calc(20%);
+        }
+        .nav-items {
+            height : 60px;
+            border-radius: 10px;
+            background-color: rgb(16,16,16);
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .nav-items img {
+            height: 40px;
+            margin: 10px 0;
+        }
+        .nav-items p {
+            height : 20px;
+            margin : 20px 0;
+            padding : 0;
+            transition: margin-top 0.25s ease-in-out;
+        }
+        .nav-items:hover p {
+            margin-top : -40px;
+        }
+
+        #message {
+            position: fixed;
+            right : 50px;
+            bottom : 50px;
+            width : 50px;
+            height : 50px;
+            padding : 10px;
+            border-radius: 10px;
+            overflow : hidden;
+            background-color: rgb(32,32,32);
+        }
+        #message > label {
+            display: inline-block;
+            width : 50px;
+            height : 50px;
+            cursor: pointer;
+        }
+        #message > input {
+            display: none;
+        }
+        #message:has(> input:checked) {
+            width : 400px;
+            height : 600px;
+        }
+        #message > form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height : 540px;
+            margin-top: 10px;
+        }
+        #message > form > input, #message > form > textarea {
+            width : calc(100% - 75px);
+            outline : none;
+            border : none;
+            background-color: rgb(16,16,16);
+            color : white;
+            font-size: 1.4em;
+            padding : 10px 25px;
+            border-radius: 25px;
+            margin : 5px 0;
+        }
+
+        #document {
+            position : fixed;
+            top : 0;
+            left : 0;
+            right : 0;
+            bottom : 0;
+            background-color: rgb(32,32,32);
+            padding : 100px 10%;
+            overflow-y: scroll;
+        }
+        #document > span {
+            display: inline-block;
+            margin : 10px;
+            padding : 10px;
+            border-radius: 5px;
+        }
+        #document > span:hover {
+            cursor : pointer;
+            background-color : rgb(64,64,64);
+        }
+        #document > div {
+            margin : 10px 50px;
+            padding : 20px;
+            border-radius: 10px;
+            background-color: rgb(16,16,16);
+        }
+        #document h2 {
+            margin : 32px 0 16px 0;
+        }
+        #document p {
+            margin : 0 30px;
+            color : gray;
+        }
+        #document ul {
+            margin : 0;
+            color : gray;
+        }
+        #document b {
+            color : rgb(191,191,191);
+        }
+        #document img {
+            width : 50%;
+            margin : 25px 0;
+            margin-left : 50%;
+            transform: translateX(-50%);
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/033/659/580/small_2x/letter-k-logo-metallic-style-png.png" height="37px">
+        <h1>Kyate</h1>
+        <div>
+            <span onclick="window.location.hash='#home'">Home</span>
+            <span onclick="window.location.hash='#about'">About</span>
+            <span onclick="window.location.hash='#projects'">Projects</span>
+            <span onclick="window.location.hash='#skills'">Skills</span>
+            <span onclick="window.location.hash='#contact'">Contact</span>
+        </div>
+    </div>
+    <div id="home">
+        <div>
+            <img src="kyate.png" width="100%">
+            <h3>Thoguru Kyatevardinne</h3>
+            <p>A passionate UI/UX Designer</p>
+        </div>
+        <div>
+            <h2>My Expert Area</h2>
+            <div id="topSkills-1">
+                <div onclick="window.location='https://www.canva.com/'">
+                    <img src="https://i.pinimg.com/originals/74/6d/77/746d77ef9b49afd5ec2306d39592d01e.png">
+                    <p>Canvas</p>
+                </div>
+                <div onclick="window.location='https://www.figma.com/'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg">
+                    <p>Figma</p>
+                </div>
+                <div onclick="window.location='https://html.com/'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HTML5_Badge.svg/1024px-HTML5_Badge.svg.png?20110131171049">
+                    <p>HTML</p>
+                </div>
+                <div onclick="window.location='https://www.w3schools.com/css/'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/2048px-CSS3_logo.svg.png">
+                    <p>CSS</p>
+                </div>
+                <div onclick="window.location='https://www.sketch.com/'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Sketch_Logo.svg/1200px-Sketch_Logo.svg.png">
+                    <p>Sketch</p>
+                </div>
+                <div onclick="window.location='https://proto.io/'">
+                    <img src="https://seeklogo.com/images/P/protoio-logo-EE2B2BD911-seeklogo.com.png">
+                    <p>Proto</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p>As a product designer, I specialize in creating magical visual identities for digital products. I believe that a stunning design starts with common values, open communication, and respect for your audience.</p>
+            <div id="topSkills-2">
+                <div style="left : 0px">User Interface</div><div style="left : 150px"></div>
+                <div style="left : 200px">Technical Arts</div><div style="left : 350px"></div>
+                <div style="left : 400px">Vector Illustration</div><div style="left : 580px"></div>
+                <div style="left : 630px">Naming</div><div style="left : 720px"></div>
+                <div style="left : 770px">Brand Potitioning</div><div style="left : 950px"></div>
+                <div style="left : 1000px">Art Directions</div><div style="left : 1150px"></div>
+            </div>
+        </div>
+        <div onclick="window.location.hash='#projects'">
+            <h2>My Projects</h2>
+            <img src="https://icons.geosm.ge/arrow-right.svg?revision=2&color=grey">
+            <div>
+                <img src="1.jpeg">
+                <img src="2.jpeg">
+                <img src="3.jpeg">
+                <img src="4.jpeg">
+                <img src="5.jpeg">
+                <img src="6.jpeg">
+                <img src="7.jpeg">
+            </div>
+        </div>
+    </div>
+    <div id="about">
+        <div>
+            <img src="kyate.png" height="350">
+            <div>
+                <p style="padding:50px">I am Kyatevardinne, a Designer passionate about creating engaging and impactful visual experiences. With a focus on graphic design, UI/UX design, and branding, I am committed to delivering captivating, innovative, and meaningful work.</p>
+                <p style="padding:50px">
+                    <b>Profile : </b>UI/UX Designer<br>
+                    <b>Highest Qualification : </b>BTECH in CSE<br>
+                    <b>Interests : </b>Arts & Designs
+                </p>
+            </div>
+        </div>
+        <div id="education">
+            <h2>Education</h2>
+            <div>
+                <div>
+                    <p>VIT-AP University</p>
+                    <p style="font-size:0.75em">2021-2025</p>
+                    <p style="font-size:0.75em">CGPA : 7.72</p>
+                </div>
+                <div>
+                    <p>Viswasai College</p>
+                    <p style="font-size:0.75em">2019-2021</p>
+                    <p style="font-size:0.75em">Percentage : 76.8</p>
+                </div>
+                <div>
+                    <p>AP Model School</p>
+                    <p style="font-size:0.75em">Graduated in 2019</p>
+                    <p style="font-size:0.75em">GPA : 8.8</p>
+                </div>
+            </div>
+        </div>
+        <div id="certification">
+            <h2>Certification</h2>
+            <div>
+                <div>
+                    <p>Artificial Intelligence and Machine Learning Powered by Google Developers</p>
+                    <p style="font-size:0.75em">SmartInternz</p>
+                    <p style="font-size:0.75em">Issued Jan 2024</p>
+                </div>
+                <div>
+                    <p>Enterprise Design Thinking Co-Creator</p>
+                    <p style="font-size:0.75em">IBM</p>
+                    <p style="font-size:0.75em">Issued Aug 2023</p>
+                </div>
+                <div>
+                    <p>Enterprise Design Thinking Practitioner</p>
+                    <p style="font-size:0.75em">IBM</p>
+                    <p style="font-size:0.75em">Issued Aug 2023</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="projects">
+        <div onclick="openProject(0)">
+            <div>
+                <h3>Smart and Portable Attendance Recorder</h3>
+                <p>Technical</p>
+            </div>
+            <div>
+                <img src="1.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(1)">
+            <div>
+                <h3>E-Safe Finance</h3>
+                <p>UI/UX Design</p>
+            </div>
+            <div>
+                <img src="2.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(2)">
+            <div>
+                <h3>Text Summarization</h3>
+                <p>Data Analyst</p>
+            </div>
+            <div>
+                <img src="3.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(3)">
+            <div>
+                <h3>Bus Ticket Generation</h3>
+                <p>Web Development</p>
+            </div>
+            <div>
+                <img src="4.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(4)">
+            <div>
+                <h3>Smart Pill Box</h3>
+                <p>Technical</p>
+            </div>
+            <div>
+                <img src="5.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(5)">
+            <div>
+                <h3>Bus Ticket Generation</h3>
+                <p>Mobile App</p>
+            </div>
+            <div>
+                <img src="6.jpeg">
+            </div>
+        </div>
+        <div onclick="openProject(6)">
+            <div>
+                <h3>Retinopathy Detection</h3>
+                <p>Data Analyst</p>
+            </div>
+            <div>
+                <img src="7.jpeg">
+            </div>
+        </div>
+    </div>
+    <div id="skills">
+        <div>
+            <h3>UI/UX Design</h3>
+            <p>UI (User Interface) and UX (User Experience) design services are focused on creating intuitive, efficient, and engaging digital products. These services encompass various stages of design, from research and prototyping to testing and final implementation</p>
+            <ul>
+                <li>Research and Analysis</li>
+                <li>Structure and Navigation</li>
+                <li>Launch and Maintenance</li>
+                <li>Testing and Adjustment</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Branding</h3>
+            <p>Branding services encompass the strategies and processes involved in creating, managing, and enhancing a brand's identity and presence. These services help businesses establish a strong, recognizable brand that resonates with their target audience</p>
+            <ul>
+                <li>Discovery Phase</li>
+                <li>Brand Strategy</li>
+                <li>Brand Guidelines</li>
+                <li>Brand Identity</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Web Development</h3>
+            <p>Web development services encompass various activities involved in creating and maintaining websites. Here are some of the main services typically offered by web development companies or professionals</p>
+            <ul>
+                <li>Front-End Development</li>
+                <li>Back-End Development</li>
+                <li>E-Commerce Development</li>
+                <li>Full-Stack Development</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Product Design</h3>
+            <p>Product design services involve the process of conceptualizing, creating, and refining products that meet user needs and business objectives. These services encompass various stages from initial idea to final product launch</p>
+            <ul>
+                <li>Research and Analysis</li>
+                <li>Industrial Design</li>
+                <li>Product Launch Support</li>
+                <li>Design for Manufacturing (DFM)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Mobile App</h3>
+            <p>Mobile app services involve the entire process of conceptualizing, designing, developing, and maintaining mobile applications. These services are essential for businesses looking to create engaging and functional apps.</p>
+            <ul>
+                <li>Consultation and Planning</li>
+                <li>Mobile App Development</li>
+                <li>App Marketing and ASO</li>
+                <li>Security and Compliance</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Visualization</h3>
+            <p>Visualization services involve creating visual representations of data, concepts, and designs to enhance understanding, communication, and decision-making. These services are essential for businesses, researchers, and designers.</p>
+            <ul>
+                <li>Data Visualization</li>
+                <li>3D Visualization</li>
+                <li>Scientific and Medical Visualization</li>
+                <li>Visual Storytelling</li>
+            </ul>
+        </div>
+    </div>
+    <div id="contact">
+        <div>
+            <img src="kyate.png" width="100%">
+            <h2>Thoguru Kyatevardinne</h2>
+            <p style="color:gray">A passionate UI/UX Designer</p>
+        </div>
+        <div>
+            <div class="nav-items" onclick="window.location='https://linkedin.com/in/kyatevardinne/'">
+                <p>LinkedIn</p>
+                <img src="https://img.icons8.com/ios11/200/FFFFFF/linkedin.png">
+            </div>
+            <div class="nav-items" onclick="window.location='https://github.com/Kyatevardinne/'">
+                <p>GitHub</p>
+                <img src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png">
+            </div>
+            <div class="nav-items" onclick="window.location='https://instagram.com/jenna_thv5/'">
+                <p>Instagram</p>
+                <img src="https://img.icons8.com/win10/512/FFFFFF/instagram-new.png">
+            </div>
+            <div class="nav-items" onclick="window.location='mailto:thogurukyatevardinne15@gmail.com'">
+                <p>Email</p>
+                <img src="https://i0.wp.com/3factsinc.org/wp-content/uploads/2019/12/crop-0-0-1000-1080-0-email-icon-outline-email-icon-isolated-on-white-vector-21742596.png?fit=1000%2C1080&ssl=1">
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <div class="nav-items" onclick="window.location='https://linkedin.com/in/kyatevardinne/'">
+            <p>LinkedIn</p>
+            <img src="https://img.icons8.com/ios11/200/FFFFFF/linkedin.png">
+        </div>
+        <div class="nav-items" onclick="window.location='https://github.com/Kyatevardinne/'">
+            <p>GitHub</p>
+            <img src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png">
+        </div>
+        <div class="nav-items" onclick="window.location='https://instagram.com/jenna_thv5/'">
+            <p>Instagram</p>
+            <img src="https://img.icons8.com/win10/512/FFFFFF/instagram-new.png">
+        </div>
+        <div class="nav-items" onclick="window.location='mailto:thogurukyatevardinne15@gmail.com'">
+            <p>Email</p>
+            <img src="https://i0.wp.com/3factsinc.org/wp-content/uploads/2019/12/crop-0-0-1000-1080-0-email-icon-outline-email-icon-isolated-on-white-vector-21742596.png?fit=1000%2C1080&ssl=1">
+        </div>
+    </div>
+    <div id="message">
+        <label for="toggle-message"><img src="https://cdn-icons-png.flaticon.com/512/25/25379.png" width="100%" height="100%"></label>
+        <input type="checkbox" id="toggle-message">
+        <form action="https://sheetdb.io/api/v1/n1ccnu61j1at3" method="post">
+            <input type="text" name="data[Name]" placeholder="Your Name" required>
+            <input type="email" name="data[Email]" placeholder="Your Email" required>
+            <textarea style="flex-grow: 1; resize : none;" name="data[Message]" placeholder="Your Message"></textarea>
+            <input style="cursor: pointer;" type="submit" value="Send">
+        </form>
+    </div>
+    <div style="text-align: center; color : gray; margin : 50px;">
+        <p style="font-size: 2.4em; margin-left : 25px; display : flex; align-items : center;">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/033/659/580/small_2x/letter-k-logo-metallic-style-png.png" height="40px">&nbsp;Kyate
+        </p>
+        <p style="font-size: 0.8em; margin : 10px;">©2024 Kyate. All rights reserved.</p>
+    </div>
+    <div id="document" style="display: none;">
+        <span onclick="this.parentElement.style.display='none';">&#x2B05; back</span>
+        <div>
+        </div>
+    </div>
+    <script>
+        const list = ["home", "about", "projects", "skills", "contact"];
+        function hashchange() {
+            let hash = window.location.hash;
+            for (x of list) {
+                document.getElementById(x).style.display='none';
+            }
+            if(list.includes(hash.slice(1,hash.length)))
+                document.getElementById(hash.slice(1, hash.length)).style.display='grid';
+            else
+                document.getElementById("home").style.display='grid';
+            if(hash=="#contact") {
+                document.getElementsByClassName("nav")[0].style.display = 'none';
+                document.getElementById("message").style.display = 'block';
+            } else {
+                document.getElementsByClassName("nav")[0].style.display = 'flex';
+                document.getElementById("message").style.display = 'none';
+            }
+        }
+        window.addEventListener("DOMContentLoaded", hashchange);
+        window.addEventListener("hashchange", hashchange);
+
+        const marquee = document.getElementById("topSkills-2").children;
+        function iterate() {
+            for (x of marquee) {
+                let left = x.style.left.slice(0,-2);
+                left -= 1;
+                if(left<-300)
+                    left += 1200;
+                x.style.left = left+"px";
+            }
+        }
+        setInterval(iterate, 25);
+
+        window.onscroll = () => {
+            if(pageYOffset>150) {
+                document.querySelector("#nav > img").style.display = 'none';
+                document.querySelector("#nav > h1").style.display = 'none';
+                document.querySelector("#nav > div").style.margin = '0';
+            } else {
+                document.querySelector("#nav > img").style.display = 'inline-block';
+                document.querySelector("#nav > h1").style.display = 'block';
+                document.querySelector("#nav > div").style.margin = '0 150px';
+            }
+        }
+
+        const projects = ["<h2>Project Overview:</h2><p>This IoT-based Attendance Recording System uses RFID and fingerprint scanning for identification. It records check-in times with a Real-Time Clock (RTC) module and sends logs to the admin's phone via Bluetooth. Visual and audio feedback is provided through LEDs (red, green, blue) and a buzzer for status updates.</p><img src='https://ubsapp.com/wp-content/uploads/2022/07/id_card_attendance.png'><h2>Challenges:</h2><ul><li>Integration of RFID and fingerprint scanning for reliable dual authentication.</li><li>Bluetooth Communication for stable, real-time data transfer to the admin's phone.</li><li>Ensuring accurate time tracking with the RTC module.</li><li>Providing clear user feedback through LEDs and the buzzer.</li><li>Security of biometric and RFID data.</li></ul><h2>Prototyping & Testing:</h2><ul><li>Connect and test the RFID, fingerprint scanner, and RTC module.</li><li>Set up LEDs and buzzer for feedback during check-in.</li><li>Test Bluetooth connectivity for real-time data transfer.</li><li>Debug any issues with timing, communication, or feedback.</li></ul><h2>Results/Conclusion:</h2><p>The system successfully records attendance with accurate time logging and dual authentication (RFID + fingerprint). Feedback through LEDs and buzzers works well for user interaction. Bluetooth transfers attendance data to the admin's phone reliably. Future improvements could focus on Bluetooth range, security, and handling larger datasets.</p>",
+        "<h2>Project Overview:</h2><p>The project is a banking website featuring a modern UI/UX design, providing users with a seamless and secure experience. Key features include user authentication, account management, activity monitoring, transactions (pay and request), cryptocurrency integration, history filtering, and a chatbot for customer support.</p><img src='https://media.istockphoto.com/id/1266975549/vector/mobile-bank-conceptual-illustration-internet-online-banking-on-phone-access-to-the-money-on.jpg?s=612x612&w=0&k=20&c=U4i9L--l0sVcqI59HnyFRK6Q11KZQwHPUEk_5iNhTWI='><h2>Challenges:</h2><ul><li><b>User Authentication:</b> Ensuring secure login and protection of user data.</li><li><b>Transaction Security:</b> Safeguarding payments, requests, and cryptocurrency transactions.</li><li><b>UI/UX Design:</b> Creating an intuitive interface that's easy to navigate and visually appealing.</li><li><b>Activity Monitoring:</b> Real-time tracking of account activities without performance issues.</li><li><b>Scalability:</b> Ensuring the website can handle multiple users and high transaction volumes smoothly.</li></ul><h2>Prototyping & Testing:</h2><ul><li>Design the website layout and user flows with a focus on ease of navigation and clear calls to action.</li><li>Test authentication processes (e.g., login, two-factor authentication) for security.</li><li>Set up and test transaction features (payments, requests, cryptocurrency) for accuracy and reliability.</li><li>Implement activity monitoring and history filtering to track and display relevant information to users.</li><li>Develop the chatbot for basic customer inquiries and test its responses for clarity and effectiveness.</li></ul><h2>Results/Conclusion:</h2><p>The banking website provides a smooth user experience with secure authentication, easy account management, and seamless transaction handling. The integration of cryptocurrency and history filtering adds flexibility for users. The chatbot successfully handles customer queries. Future improvements could include enhancing transaction speed and scaling for larger user bases.</p>",
+        "<h2>Project Overview:</h2><p>This project involves text summarization using Machine Learning (ML) to automatically generate concise summaries of larger texts. The system processes input documents and produces meaningful, shortened versions that retain the essential information. Techniques such as extractive summarization (selecting key sentences) and abstractive summarization (generating new sentences) are used.</p><img src='https://www.graphcore.ai/hs-fs/hubfs/Text%20summarisation%20header%20(1).png?width=1440&name=Text%20summarisation%20header%20(1).png'><h2>Challenges:</h2><ul><li><b>Text Understanding:</b> Ensuring the model captures the core meaning of the text, including context and important details.</li><li><b>Training Data:</b> Gathering a large, diverse dataset to train the ML model for generalization.</li><li><b>Accuracy:</b> Generating summaries that are coherent, relevant, and contextually accurate.</li><li><b>Performance:</b> Balancing summarization quality with processing time, especially for long documents.</li><li><b>Language Nuances:</b> Handling different writing styles, domains, and languages effectively.</li></ul><h2>Prototyping & Testing:</h2><ul><li><b>Data Collection:</b> Collect a large dataset of documents and their corresponding summaries for training.</li><li><b>Model Selection:</b> Test various ML models, such as BERT or GPT, for both extractive and abstractive summarization.</li><li><b>Evaluation Metrics:</b> Use metrics like ROUGE to measure the quality and relevance of generated summaries.</li><li><b>User Testing:</b> Allow users to input text and evaluate the quality of the summarization.</li></ul><h2>Results/Conclusion:</h2><p>The ML-based text summarization model successfully generates relevant and coherent summaries. The extractive model provides key sentence selections, while the abstractive model generates more natural summaries. Future improvements could focus on fine-tuning the model for specific domains or improving the speed for large-scale documents.</p>",
+        "<h2>Project Overview:</h2><p>This project is a bus ticket generation website that allows users to book bus tickets online. The website features user authentication, search functionality for available bus routes, seat selection, and ticket booking. Users can view booking history, generate tickets in a printable format, and receive payment confirmation. The website also includes features for admin management (e.g., adding/editing routes, managing bookings).</p><img src='https://png.pngtree.com/thumb_back/fh260/background/20220719/pngtree-girl-with-bus-tickets-from-airport-to-city-photo-image_37916760.jpg'><h2>Challenges:</h2><ul><li><b>User Authentication:</b> Ensuring secure sign-up, login, and account management.</li><li><b>Real-Time Availability:</b> Displaying up-to-date seat availability and routes.</li><li><b>Payment Integration:</b> Securely handling online payments and generating tickets only after successful transactions.</li><li><b>UI/UX Design:</b> Designing an easy-to-navigate and responsive interface for users of all technical levels.</li><li><b>Admin Panel:</b> Creating a simple interface for administrators to manage routes, bookings, and payments.</li></ul><h2>Prototyping & Testing:</h2><ul><li>Design the User Interface with clear search options, booking forms, and ticket display.</li><li>Implement seat availability logic to ensure real-time updates during bookings.</li><li>Integrate payment gateway (e.g., Stripe, PayPal) for secure transactions.</li><li>Test the ticket generation feature, ensuring it correctly includes user details, route, time, and seat.</li><li>Conduct user testing for easy navigation and accessibility, especially for the booking process.</li></ul><h2>Results/Conclusion:</h2><p>The bus ticket generation website allows users to easily book tickets, make secure payments, and receive printable tickets. The real-time seat availability and admin management features work as expected. Future improvements could focus on enhancing payment options, expanding to mobile apps, and implementing real-time bus tracking.</p>",
+        "<h2>Project Overview:</h2><p>The Smart Pill Box is a device designed to help users manage their medication schedules more effectively. It includes features like automated pill dispensing, reminders, and real-time tracking. The pill box connects to a mobile app via Bluetooth or Wi-Fi, allowing users to receive alerts when it's time to take their medication. The device can track pill usage and provide reminders if a dose is missed, ensuring better adherence to medication plans.</p><img src='https://m.media-amazon.com/images/I/81wkGdyM9XL._AC_UF1000,1000_QL80_.jpg'><h2>Challenges:</h2><ul><li><b>Accurate Dispensing</b> Ensuring that the correct pill is dispensed at the right time.</li><li><b>User Interface:</b> Designing an intuitive interface for both the device and the mobile app.</li><li><b>Battery Life:</b> Managing power consumption to ensure the device runs smoothly for extended periods.</li><li><b>Connectivity:</b> Ensuring stable Bluetooth/Wi-Fi connectivity for reminders and data synchronization.</li><li><b>Security and Privacy:</b> Protecting sensitive medical data and ensuring compliance with privacy regulations.</li></ul><h2>Prototyping & Testing:</h2><ul><li><b>Hardware Design:</b> Prototype the pill box with compartments for different medications, motors for dispensing, and sensors to track pill usage.</li><li><b>Mobile App Development:</b> Create an app to manage reminders, track medication history, and allow users to view their pill-taking schedule.</li><li><b>Connectivity Testing:</b> Ensure Bluetooth/Wi-Fi works reliably for real-time alerts and synchronization.</li><li><b>User Testing:</b> Conduct tests with users to ensure the system is easy to set up, operate, and understand.</li></ul><h2>Results/Conclusion:</h2><p>The Smart Pill Box successfully automates medication dispensing and offers reminders to improve adherence. Users can track their medication history via the mobile app, reducing the risk of missed doses. Future improvements could focus on advanced tracking features, such as real-time notifications for caregivers, and integration with health systems for seamless patient monitoring.</p>",
+        "<h2>Project Overview:</h2><p>The Bus Ticket Generation Mobile App allows users to easily book bus tickets from their smartphones. The app enables users to search for bus routes, select seats, view ticket details, and make secure payments. Once booked, the app generates an electronic ticket that can be saved or shared. Features also include real-time bus tracking, booking history, and notifications for upcoming trips or schedule changes.</p><img src='https://png.pngtree.com/thumb_back/fh260/background/20220719/pngtree-girl-with-bus-tickets-from-airport-to-city-photo-image_37916760.jpg'><h2>Challenges:</h2><ul><li><b>Real-Time Seat Availability:</b> Ensuring that seat selections are updated in real-time to prevent overbooking.</li><li><b>Payment Integration:</b> Implementing a secure and smooth payment gateway (e.g., credit cards, mobile wallets).</li><li><b>User Interface:</b> Designing a simple, intuitive interface that makes the booking process seamless and user-friendly.</li><li><b>Notifications:</b> Sending timely push notifications for booking confirmations, reminders, and trip updates.</li><li><b>Performance & Scalability:</b> Ensuring the app performs well even with high user traffic and multiple bookings.</li></ul><h2>Prototyping & Testing:</h2><ul><li><b>UI/UX Design:</b> Design the mobile app interface focusing on easy navigation and clear steps for searching routes, selecting seats, and completing payments.</li><li><b>Payment Integration:</b> Integrate payment systems like Stripe or PayPal for secure transactions.</li><li><b>Real-Time Seat Management:</b> Implement logic for live seat availability updates and conflict resolution.</li><li><b>Testing:</b> Conduct user testing to ensure the app is intuitive and reliable. Test the payment gateway, ticket generation, and push notification features.</li><li><b>Backend Development:</b> Set up a robust backend to handle bookings, route management, and real-time updates.</li></ul><h2>Results/Conclusion:</h2><p>The mobile app successfully allows users to search for bus routes, book tickets, and receive digital tickets on their phones. Real-time seat availability and secure payment processing work smoothly, while push notifications keep users informed. Future improvements could include integrating GPS tracking for buses, expanding payment options, and offering loyalty or reward programs for frequent travelers.</p>",
+        "<h2>Project Overview:</h2><p>The Retinopathy Detection System uses computer vision and machine learning techniques to analyze retinal images and detect signs of diabetic retinopathy (DR). The system processes retinal fundus images to identify abnormalities such as microaneurysms, hemorrhages, and other retinal changes that indicate the presence of DR. The goal is to provide an automated, efficient, and non-invasive way to screen for diabetic retinopathy early, helping in timely intervention and reducing the risk of blindness.</p><img src='https://media.licdn.com/dms/image/C4E12AQFG4BndMH1_Yg/article-cover_image-shrink_600_2000/0/1520172880348?e=2147483647&v=beta&t=ZnKx9rpc7GfU5aGscm8h1AcLfZqDorf8T0oDS0kKM7o'><h2>Challenges:</h2><ul><li><b>Image Quality:</b> Retinal images can vary in quality due to factors like lighting, noise, and resolution, affecting detection accuracy.</li><li><b>Feature Extraction:</b> Detecting subtle features of diabetic retinopathy, such as microaneurysms or exudates, requires precise image processing and feature extraction.</li><li><b>Class Imbalance:</b> DR datasets often contain more healthy samples than diseased ones, making the model prone to biases.</li><li><b>Accuracy and Robustness:</b> Ensuring high sensitivity and specificity in detecting DR across diverse datasets and patient populations.</li><li><b>Model Interpretability:</b> Making the system transparent so that healthcare professionals can trust and interpret the model's results.</li></ul><h2>Prototyping & Testing:</h2><ul><li><b>Dataset Collection:</b> Use publicly available datasets like the Kaggle Diabetic Retinopathy Detection or EyePACS dataset, which contains labeled retinal images.</li><li><b>Preprocessing:</b> Apply image preprocessing techniques like contrast enhancement, noise removal, and image normalization to improve image quality.</li><li><b>Model Selection:</b> Experiment with different computer vision models, such as CNNs (Convolutional Neural Networks), for feature extraction and classification.</li><li><b>Evaluation Metrics:</b> Use metrics like accuracy, precision, recall, and F1-score to evaluate the model's performance, especially focusing on sensitivity (correctly identifying DR).</li><li><b>Testing:</b> Validate the system on a separate test set, and evaluate how well it generalizes to unseen data. Conduct cross-validation for better results.</li></ul><h2>Results/Conclusion:</h2><p>The system successfully detects signs of diabetic retinopathy in retinal images with high accuracy. By leveraging deep learning and computer vision techniques, it can identify subtle abnormalities in the retina, enabling early detection of DR. The model shows strong performance, with high sensitivity and specificity, reducing the dependency on manual screening. Future work could focus on improving model interpretability, real-time analysis, and expanding the system to detect other eye diseases. Additionally, further enhancement in image quality and multi-modal data fusion (e.g., combining retinal images with patient health data) could improve accuracy.</p>"];
+        function openProject(i) {
+            document.querySelector("#document > div").innerHTML = projects[i];
+            document.getElementById("document").style.display = 'block';
+        }
+    </script>
+</body>
+</html>
